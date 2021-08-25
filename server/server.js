@@ -3,7 +3,8 @@ const path = require('path');
 // import cookieParser from 'cookie-parser';
 // import dotenv from 'dotenv';
 // const userRouter = require('./routes/user.js');
-// const imageRouter = require('./routes/image.js');
+// const imageRouter = require('./routes/api.js');
+//const apiRouter = require('./routes/user')
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -14,9 +15,27 @@ app.use(express.json());
 
 // statically serve everything in the build folder on the route '/build'
 app.use(express.static(path.resolve('../build')));
-// TODO: comment out when ready
+// TODO: comment out when ready Landing Page 
 app.get('/', (req, res) => {
   res.sendFile(path.resolve(__dirname, '../index.html'));
+});
+
+// Login Page 
+
+app.get('/login',(req, res) => {
+  return res.redirect('/login');
+});
+
+// LOG OUT ?
+// app.get('/logout', (req, res) => {
+//   return res.redirect('/')
+// })
+
+// this is the call to get all the files from the sql DB 
+app.get ('/home', (req, res) => {
+  console.log(req.body, 'received at /app/home');
+  console.log('res.locals from app/home/get', res.locals);
+  return res.status(200).json(res.locals);
 });
 
 /**
@@ -24,7 +43,17 @@ app.get('/', (req, res) => {
  */
 
 // app.use('/api/user', userRouter);
+app.use('/api/user', (req, res)=>{
+  console.log(req.body, 'recieved at /api/user');
+  return res.send(req.body);
+});
 // app.use('/api/images', imageRouter);
+app.use('/api/images', (req, res)=>{
+  console.log(req.body, 'recieved at /api/images');
+  return res.send(req.body);
+});
+//app.use('/api', apiRouter);
+
 
 /**
  * 404 handler
