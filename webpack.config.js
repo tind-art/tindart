@@ -18,39 +18,39 @@ module.exports = {
   },
   devtool: 'eval-source-map',
   mode: process.env.NODE_ENV,
-  // devServer: {
-  //   host: 'localhost',
-  //   port: 8080,
-  //   // enable HMR on the devServer
-  //   hot: true,
-  //   // match the output path
-  //   contentBase: path.resolve(__dirname, './dist'),
-  //   // match the output 'publicPath'
-  //   publicPath: '/',
-  //   // fallback to root for other urls
-  //   historyApiFallback: true,
+  devServer: {
+    host: 'localhost',
+    port: 8080,
+    // enable HMR on the devServer
+    hot: true,
+    // match the output path
+    contentBase: path.resolve(__dirname, './dist'),
+    // match the output 'publicPath'
+    publicPath: '/',
+    // fallback to root for other urls
+    historyApiFallback: true,
 
-  //   inline: true,
+    inline: true,
 
-  //   // Sets server CORS policy to accept incoming requests from different ports and hosts.
-  //   headers: { 'Access-Control-Allow-Origin': '*' },
-  //   /**
-  //    * proxy is required in order to make api calls to
-  //    * express server while using hot-reload webpack server
-  //    * routes api fetch requests from localhost:8080/api/* (webpack dev server)
-  //    * to localhost:3000/api/* (where our Express server is running)
-  //    */
-  //   proxy: {
-  //     '/api/**': {
-  //       target: 'http://localhost:3000',
-  //       secure: false,
-  //     },
-  //     '/assets/**': {
-  //       target: 'http://localhost:3000',
-  //       secure: false,
-  //     },
-  //   },
-  // },
+    // Sets server CORS policy to accept incoming requests from different ports and hosts.
+    headers: { 'Access-Control-Allow-Origin': '*' },
+    /**
+     * proxy is required in order to make api calls to
+     * express server while using hot-reload webpack server
+     * routes api fetch requests from localhost:8080/api/* (webpack dev server)
+     * to localhost:3000/api/* (where our Express server is running)
+     */
+    proxy: {
+      '/api': {
+        target: 'http://localhost:3000',
+        secure: false,
+      },
+      '/login': {
+        target: 'http://localhost:3000',
+        secure: false,
+      },
+    },
+  },
   module: {
     rules: [
       {
