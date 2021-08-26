@@ -1,6 +1,7 @@
 const {Pool} = require('pg');
 const uri = 'postgres://nvrekaja:2V3MJidyKtPJ-_Y2VyStRUoDuLVJqAkD@kashin.db.elephantsql.com/nvrekaja'
 const fs = require('fs');
+const { ModuleFilenameHelpers } = require('webpack');
 const bestArrayEver = JSON.parse(fs.readFileSync('thebestarrayever.txt','utf8'))
 console.log(bestArrayEver);
 
@@ -10,7 +11,7 @@ const pool = new Pool({
   connectionString: uri,
 });
 
-db = {
+const db = {
   query: (text, params, callback) => {
     console.log('executed query', text);
     return pool.query(text, params, callback);
@@ -29,3 +30,5 @@ await db.query(text,values);
 }
 }
 doitall();
+
+modules.export = db;
