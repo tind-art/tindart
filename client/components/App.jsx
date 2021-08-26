@@ -9,16 +9,17 @@ import ImageDisplay from './ImageDisplay';
 function App() {
   const [userId, setUserId] = useState('');
   const [imageList, setImageList] = useState([]);
+  const [imageListLength, setImageListLength] = useState(0);
   const [lastViewed, setLastViewed] = useState(-1);
   const [currImage, setCurrImage] = useState({});
 
   // preload images and populate browser cache
   useEffect(() => {
     function preloadImages(userId) {
-      setImageList([]);
       fetch(`/api/images/${userId}`, { method: 'GET' })
         .then((res) => res.json())
         .then((images) => {
+          setImageListLength(images.length);
           images.forEach(
             ({
               _id: key,
@@ -29,7 +30,7 @@ function App() {
               date_display: date,
               alt_text: screenReaderText,
               medium_display: medium,
-            }) => {
+            }, i) => {
               const img = new Image();
               img.src = url;
               const imageObj = {
@@ -42,32 +43,24 @@ function App() {
                 medium,
                 screenReaderText,
               };
-              const newImageList = imageList.push(imageObj);
-              setImageList(newImageList);
             }
           );
         })
         .catch((err) => console.log('preloadImages error: ', err));
     }
-    // setUserId();
-    preloadImages(userId);
-    return () => {};
-  }, [userId, imageList]);
-
-  // user selects like or dislike
-  useEffect(() => {
-    function displayImage(imageList) {
-      const currImage = imageList[0];
-      setImageList(imageList.slice(1));
-      setCurrImage(currImage);
-    }
-    displayImage(imageList);
-    return () => {};
+    let imageObj;
+    if (!imageList || imageList.length <= 5) imageObj = preloadImages(userId);
+    const newImageList = imageList.push(imageObj);
+    setImageList(newImageList);
   });
 
+  // user selects like or dislike
   function swipeImage(event) {
     const newLastViewed = lastViewed + 1;
     setLastViewed(newLastViewed);
+    const currImage = imageList[0];
+    setImageList(imageList.slice(1));
+    setCurrImage(currImage);
     const [likeEndpoint, dislikeEndpoint, apiCall] = [
       `/api/like/${props.userId}`,
       `/api/dislike/${props.userId}`,
