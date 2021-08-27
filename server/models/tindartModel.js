@@ -1,5 +1,5 @@
 const { Pool } = require('pg');
-//const uri = require('../config/uri.json');
+require('dotenv').config();
 
 /*
 
@@ -16,10 +16,9 @@ https://www.elephantsql.com/docs/index.html
 
 */
 
-// Import elephant db connection string.
-const uri = 'postgres://nvrekaja:2V3MJidyKtPJ-_Y2VyStRUoDuLVJqAkD@kashin.db.elephantsql.com/nvrekaja'
-const PG_URI = uri;
+const { PG_URI } = process.env;
 
+// Import elephant db connection string.
 const pool = new Pool({
   connectionString: PG_URI,
 });

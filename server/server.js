@@ -3,8 +3,8 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 
 // import dotenv from 'dotenv';
-const apiRouter = require('./routes/apiRouter.js');
-const loginRouter = require('./routes/loginRouter.js');
+const apiRouter = require('./routes/apiRouter');
+const loginRouter = require('./routes/loginRouter');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -14,17 +14,16 @@ app.use(express.json());
 app.use(cookieParser());
 
 // statically serve everything in the build folder on the route '/build'
-app.use(express.static(path.resolve('../build')));
-// TODO: comment out when ready Landing Page 
+app.use(express.static(path.resolve('../dist')));
+// TODO: comment out when ready Landing Page
 
-
-// Login Page 
+// Login Page
 
 app.use('/login', loginRouter);
 app.use('/api', apiRouter);
 
-// this is the call to get all the files from the sql DB 
-app.get ('/home', (req, res) => {
+// this is the call to get all the files from the sql DB
+app.get('/home', (req, res) => {
   console.log(req.body, 'received at /app/home');
   console.log('res.locals from app/home/get', res.locals);
   return res.status(200).json(res.locals);
