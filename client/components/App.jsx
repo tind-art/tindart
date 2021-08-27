@@ -57,7 +57,7 @@ function App() {
     let imageObj;
     if (!imageList || imageList.length <= 5) {
       console.log("I ain't got no images");
-    preloadImages('buddy1')
+    preloadImages('Demo_ID')
     }
    
     // const newImageList = JSON.parse(JSON.stringify(imageList));
@@ -78,7 +78,7 @@ function App() {
         fetch(endpoint, { method: 'PUT', headers: {
           'Content-Type': 'application/json'
           // 'Content-Type': 'application/x-www-form-urlencoded',
-        }, body:JSON.stringify({user_id:'buddy1',art_id:currImage.key})})
+        }, body:JSON.stringify({user_id:'Demo_ID',art_id:currImage.key})})
           .then((res) => res.json())
           .catch((err) => console.error(err));
       },
